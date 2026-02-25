@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobTailor AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>JobTailor AI</h1>
+    <p>Find jobs by location and tailor your resume for each one.</p>
+  </header>
+
+  <main class="container">
+    <!-- SEARCH PANEL -->
+    <section class="card">
+      <h2>Search Jobs</h2>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="yourLocation">Your location</label>
+          <input id="yourLocation" type="text" placeholder="e.g. South Jakarta" />
+        </div>
+
+        <div class="field">
+          <label for="jobLocation">Job location wanted</label>
+          <input id="jobLocation" type="text" placeholder="e.g. Jakarta" />
+        </div>
+
+        <div class="field">
+          <label for="jobKeyword">Job title / keyword</label>
+          <input id="jobKeyword" type="text" placeholder="e.g. cashier, intern, designer" />
+        </div>
+
+        <div class="field">
+          <label for="radius">Radius</label>
+          <select id="radius">
+            <option value="5">5 km</option>
+            <option value="10" selected>10 km</option>
+            <option value="25">25 km</option>
+            <option value="50">50 km</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="searchBtn">Search Jobs</button>
+      </div>
+
+      <p class="note">
+        This first version shows demo jobs so you can test the layout. Later we’ll connect a real job API.
+      </p>
+    </section>
+
+    <!-- RESULTS PANEL -->
+    <section class="card">
+      <h2>Job Results</h2>
+      <div id="results" class="results-list">
+        <p class="empty">No jobs yet. Fill the form and click <strong>Search Jobs</strong>.</p>
+      </div>
+    </section>
+
+    <!-- JOB DETAILS PANEL -->
+    <section class="card">
+      <h2>Job Details</h2>
+      <div id="jobDetails" class="job-details">
+        <p class="empty">Click a job card to view details here.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Starter MVP • Local jobs + resume tailoring</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+const searchBtn = document.getElementById("searchBtn");
+const resultsDiv = document.getElementById("results");
+const jobDetailsDiv = document.getElementById("jobDetails");
+
+const demoJobs = [
+  {
+    id: 1,
+    title: "Customer Service Assistant",
+    company: "Metro Retail",
+    location: "Central Jakarta",
+    salary: "IDR 4,500,000 - 5,500,000",
+    snippet: "Assist customers, handle checkout, and maintain store presentation.",
+    description:
+      "We are looking for a friendly and reliable Customer Service Assistant to support daily store operations. Responsibilities include helping customers, handling cash/card payments, and keeping the sales floor organized.",
+    applyLink: "https://example.com/job/1",
+    source: "Demo Listing"
+  },
+  {
+    id: 2,
+    title: "Junior Graphic Designer",
+    company: "Bright Studio",
+    location: "South Jakarta",
+    salary: "IDR 6,000,000 - 8,000,000",
+    snippet: "Create social media visuals, banners, and marketing materials.",
+    description:
+      "Bright Studio is hiring a Junior Graphic Designer to create digital assets for campaigns. You will work with the content team to produce social media graphics, website banners, and branding materials.",
+    applyLink: "https://example.com/job/2",
+    source: "Demo Listing"
+  },
+  {
+    id: 3,
+    title: "Admin Intern",
+    company: "Nusantara Office Co.",
+    location: "West Jakarta",
+    salary: "Allowance provided",
+    snippet: "Support scheduling, filing, data entry, and basic office tasks.",
+    description:
+      "This internship is ideal for students or fresh graduates. You will assist with document filing, scheduling, data entry, and other administrative tasks while learning office workflows.",
+    applyLink: "https://example.com/job/3",
+    source: "Demo Listing"
+  }
+];
+
+searchBtn.addEventListener("click", () => {
+  const yourLocation = document.getElementById("yourLocation").value.trim();
+  const jobLocation = document.getElementById("jobLocation").value.trim();
+  const jobKeyword = document.getElementById("jobKeyword").value.trim();
+  const radius = document.getElementById("radius").value;
+
+  let filtered = demoJobs;
+
+  if (jobLocation) {
+    filtered = filtered.filter(job =>
+      job.location.toLowerCase().includes(jobLocation.toLowerCase())
+    );
+  }
+
+  if (jobKeyword) {
+    filtered = filtered.filter(job =>
+      job.title.toLowerCase().includes(jobKeyword.toLowerCase()) ||
+      job.snippet.toLowerCase().includes(jobKeyword.toLowerCase())
+    );
+  }
+
+  renderResults(filtered, { yourLocation, jobLocation, jobKeyword, radius });
+});
+
+function renderResults(jobs, searchInfo) {
+  if (jobs.length === 0) {
+    resultsDiv.innerHTML = `
+      <p class="empty">No demo jobs matched your search.</p>
+      <p class="note">Try keywords like <strong>customer</strong>, <strong>designer</strong>, or <strong>intern</strong>.</p>
+    `;
+    jobDetailsDiv.innerHTML = `<p class="empty">Click a job card to view details here.</p>`;
+    return;
+  }
+
+  resultsDiv.innerHTML = `
+    <p class="note">
+      Showing ${jobs.length} result(s) for
+      <strong>${escapeHtml(searchInfo.jobKeyword || "any job")}</strong>
+      in <strong>${escapeHtml(searchInfo.jobLocation || "any location")}</strong>
+      (${escapeHtml(searchInfo.radius)} km)
+    </p>
+  `;
+
+  jobs.forEach(job => {
+    const card = document.createElement("div");
+    card.className = "job-card";
+    card.innerHTML = `
+      <h3>${escapeHtml(job.title)}</h3>
+      <div class="job-meta">
+        ${escapeHtml(job.company)} • ${escapeHtml(job.location)} • ${escapeHtml(job.salary)}
+      </div>
+      <div class="job-snippet">${escapeHtml(job.snippet)}</div>
+      <button data-job-id="${job.id}">View Job</button>
+    `;
+    resultsDiv.appendChild(card);
+  });
+
+  const buttons = resultsDiv.querySelectorAll("button[data-job-id]");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const jobId = Number(btn.getAttribute("data-job-id"));
+      const selectedJob = demoJobs.find(j => j.id === jobId);
+      if (selectedJob) renderJobDetails(selectedJob);
+    });
+  });
+}
+
+function renderJobDetails(job) {
+  jobDetailsDiv.innerHTML = `
+    <h3>${escapeHtml(job.title)}</h3>
+
+    <div class="detail-row"><span class="detail-label">Company:</span> ${escapeHtml(job.company)}</div>
+    <div class="detail-row"><span class="detail-label">Location:</span> ${escapeHtml(job.location)}</div>
+    <div class="detail-row"><span class="detail-label">Salary:</span> ${escapeHtml(job.salary)}</div>
+    <div class="detail-row"><span class="detail-label">Source:</span> ${escapeHtml(job.source)}</div>
+
+    <div class="detail-row" style="margin-top:10px;">
+      <span class="detail-label">Description:</span><br/>
+      ${escapeHtml(job.description)}
+    </div>
+
+    <div class="detail-row" style="margin-top:10px;">
+      <a href="${job.applyLink}" target="_blank" rel="noopener noreferrer">
+        Apply / View Job
+      </a>
+    </div>
+
+    <div class="resume-box">
+      <h4>Tailor your resume for this job</h4>
+      <textarea id="resumeText" placeholder="Paste your resume bullet points here..."></textarea>
+      <div class="resume-actions">
+        <button id="rewriteBtn">Rewrite for this job</button>
+        <button id="keywordsBtn">Find missing keywords</button>
+        <button id="polishBtn">Polish grammar</button>
+      </div>
+      <div id="aiOutput" class="output-box">
+        AI output will appear here (demo mode for now).
+      </div>
+    </div>
+  `;
+
+  document.getElementById("rewriteBtn").addEventListener("click", () => {
+    const text = document.getElementById("resumeText").value.trim();
+    const output = document.getElementById("aiOutput");
+
+    if (!text) {
+      output.textContent = "Paste some resume text first.";
+      return;
+    }
+
+    output.innerHTML = `
+      <strong>Demo rewrite for ${escapeHtml(job.title)}:</strong><br><br>
+      • Supported daily operations and provided customer-facing assistance in a fast-paced environment.<br>
+      • Maintained organized workflows and helped improve service efficiency.<br>
+      • Collaborated with team members to complete tasks accurately and on time.<br><br>
+      <em>Later, this button will use real AI to rewrite your exact resume for this job.</em>
+    `;
+  });
+
+  document.getElementById("keywordsBtn").addEventListener("click", () => {
+    const output = document.getElementById("aiOutput");
+    output.innerHTML = `
+      <strong>Demo missing keywords:</strong><br><br>
+      • customer service<br>
+      • teamwork<br>
+      • communication<br>
+      • time management<br>
+      • problem-solving<br><br>
+      <em>Later, this will compare your resume to the real job description.</em>
+    `;
+  });
+
+  document.getElementById("polishBtn").addEventListener("click", () => {
+    const output = document.getElementById("aiOutput");
+    output.innerHTML = `
+      <strong>Demo grammar polish:</strong><br><br>
+      I helped customers and handled tasks in the store.<br><br>
+      ⮕ <strong>Polished:</strong> Assisted customers and supported daily store operations efficiently in a fast-paced retail environment.
+    `;
+  });
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}

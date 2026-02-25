@@ -1,0 +1,186 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+.topbar {
+  background: #111827;
+  color: white;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.topbar h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+}
+
+.topbar p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 16px;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.field input,
+.field select {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.actions {
+  margin-top: 12px;
+}
+
+button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.92;
+}
+
+.note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.results-list {
+  display: grid;
+  gap: 10px;
+}
+
+.job-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.job-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.job-meta {
+  font-size: 13px;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.job-snippet {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.job-details h3 {
+  margin-top: 0;
+}
+
+.detail-row {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.detail-label {
+  font-weight: bold;
+}
+
+.resume-box {
+  margin-top: 12px;
+}
+
+.resume-box textarea {
+  width: 100%;
+  min-height: 120px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.resume-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.output-box {
+  margin-top: 10px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.empty {
+  color: #6b7280;
+  margin: 0;
+}
+
+.footer {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  padding: 10px 0 20px;
+}
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
